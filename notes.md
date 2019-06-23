@@ -12,11 +12,12 @@
     router.post('/login', async (req, res) => {
         try {
             const { username, password } = req.body;
+            let token = null;
 
             const user = await userDB.login(username);
 
             user && bcrypt.compareSync(password, user.password)
-            ? (const token = generateToken(user),
+            ? (token = generateToken(user),
             res.status(200).json({ message: `Welcome ${user.username}!`, token }))
             : res.status(401).json({ message: 'Invalid credentials.' });
         } catch(err) {
