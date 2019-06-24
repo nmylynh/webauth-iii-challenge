@@ -2,20 +2,20 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const userDB = require('../models/users-model');
-const restricted = require('../middleware/auth-mw.js');
+const auth = require('../middleware/auth-mw.js');
 const mw = require('../middleware/users-mw');
 
-router.get('/', restricted, async (req, res) => {
+router.get('/', auth.restricted, async (req, res) => {
     try {
         const users = await userDB.find();
 
-        res.status(200).json(users);
+        res.status(200).json({ users, user: req.user });
     } catch(err) {
         res.status(500).json({success:false, err})
     }
 });
 
-router.get('/:id', restricted, mw.validateUserId, async (req, res) => {
+router.get('/:id', auth.restricted, mw.validateUserId, async (req, res) => {
     try {
         const { id } = req.params;
         const user = await userDB.findById(id);
@@ -26,7 +26,7 @@ router.get('/:id', restricted, mw.validateUserId, async (req, res) => {
     }
 });
 
-router.put('/:id', restricted, mw.validateUserId, mw.validateUserBody, async (req, res) => {
+router.put('/:id', auth.restricted, mw.validateUserId, mw.validateUserBody, async (req, res) => {
     try {
         const { id } = req.params;
         let newUser = req.body;
@@ -44,7 +44,7 @@ router.put('/:id', restricted, mw.validateUserId, mw.validateUserBody, async (re
     }
 });
 
-router.delete('/:id', restricted, mw.validateUserId, async (req, res) => {
+router.delete('/:id', auth.restricted, mw.validateUserId, async (req, res) => {
     try {
         const { id } = req.params;
         const success = await userDB.remove(id);
