@@ -26,6 +26,17 @@ router.get('/:id', auth.restricted, mw.validateUserId, async (req, res) => {
     }
 });
 
+router.get('/:id/roles', async (req, res) => {
+    try {
+        const {id} = req.params;
+        const userRoles = await userDB.getUserRoles(id);
+
+        res.status(200).json(userRoles);
+    } catch (err) {
+        res.status(500).json({success: false, err});
+    }
+});
+
 router.put('/:id', auth.restricted, mw.validateUserId, mw.validateUserBody, async (req, res) => {
     try {
         const { id } = req.params;
