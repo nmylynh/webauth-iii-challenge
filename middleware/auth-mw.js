@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const secrets = require('../database/secrets.js');
+const secrets = require('../database/secret.js');
 
 module.exports = {
     restricted: (req, res, next) => {
@@ -25,4 +25,4 @@ module.exports = {
             : res.status(401).json({ message: `Ya'll need to login first, yunno?` });
         }
     }
-}
+} 

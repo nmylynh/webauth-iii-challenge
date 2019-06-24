@@ -3,6 +3,8 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const userDB = require('../models/auth-model')
 const mw = require('../middleware/users-mw');
+const jwt = require('jsonwebtoken');
+const secrets = require('../database/secret.js');
 
 router.post('/register', mw.validateUserBody, async (req, res) => {
     try {
@@ -14,7 +16,7 @@ router.post('/register', mw.validateUserBody, async (req, res) => {
         const savedUser = await userDB.register(newUser); 
         res.status(201).json(savedUser);
     } catch(err) {
-        res.status(500).json({success: false, err});
+        res.status(500).json({ success: false, err });
     }
 });
 

@@ -4,10 +4,11 @@ const morgan = require('morgan');
 const cors = require('cors');
 const session = require('express-session');
 const KnexSessionStore = require('connect-session-knex')(session);
+const secrets = require('../database/secret');
 
 const sessionConfig = {
     name: 'THISISPATRICK',
-    secret: 'who is Victoria and what is her secret',
+    secret: secrets.jwtSecret,
     resave: false, 
     saveUninitialized: true,
     cookie: {
