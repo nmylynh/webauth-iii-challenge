@@ -21,17 +21,19 @@ router.post('/register', mw.validateUserBody, async (req, res) => {
 router.post('/login', mw.validateUserBody, async (req, res) => {
     try {
         const { username, password } = req.body;
+        let token = null;
 
         const user = await userDB.login(username);
 
         user && bcrypt.compareSync(password, user.password)
-        ? (req.session.username = user.username,
-          res.status(200).json({message: `Welcome ${user.username}!`}))
-        : res.status(401).json({message: 'Invalid credentials.'});
+        ? (token = generateToken(user),
+          res.status(200).json({ message: `Welcome ${user.username}!`, token }))
+        : res.status(401).json({ message: 'Invalid credentials.' });
     } catch(err) {
         res.status(500).json({ success: false, err })
     }
 });
+
 
 router.delete('/', (req, res) => {
     if (req.session) {
@@ -40,5 +42,21 @@ router.delete('/', (req, res) => {
 
     res.status(200).json({ message: 'You have now been logged out.' });
 });
+
+//auth function
+
+function generateToken(user) {
+    const payload = {
+        subject: user.id,
+        username: user.username,
+        roles: user.roles
+    };
+
+    const options = {
+        expiresIn: '1d',
+    };
+
+    return jwt.sign(payload, secrets.jwtSecret, options);
+}
 
 module.exports = router;

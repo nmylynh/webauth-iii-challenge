@@ -11,7 +11,7 @@ router.get('/', auth.restricted, async (req, res) => {
 
         res.status(200).json({ users, user: req.user });
     } catch(err) {
-        res.status(500).json({success:false, err})
+        res.status(500).json({ success:false, err })
     }
 });
 
@@ -40,7 +40,7 @@ router.put('/:id', auth.restricted, mw.validateUserId, mw.validateUserBody, asyn
         ? res.status(200).json({message: 'successfully updated credentials'}) 
         : res.status(404).json({message: 'missing required fields'})
     } catch(err) {
-        res.status(500).json({success:false, err})
+        res.status(500).json({ success:false, err })
     }
 });
 
@@ -52,7 +52,7 @@ router.delete('/:id', auth.restricted, mw.validateUserId, async (req, res) => {
         success ?
          res.status(204).end() : res.status(404).end();
     } catch(err) {
-        res.status(500).json({success:false, err})
+        res.status(500).json({ success:false, err })
     }
 });
 
