@@ -101,14 +101,13 @@ State req.user through restriction middleware and add multiple object properties
     module.exports = (req, res, next) => {
 
         const token = req.headers.authorization;
-
+    
         token
         ? jwt.verify(token, secrets.jwtSecret, (err, decodeToken) => {
             err
             ? res.status(401).json({ message: 'Invalid credentials.' })
-            : (req.user = { roles: decodeToken.roles, username: decodeToken.username }, 
-              next()
-            }))
+            : req.user = { roles: decodeToken.roles, username: decodeToken.username }, next()
+        })
         : res.status(400).json({ message: 'No token provided.' });
     }
 
@@ -126,8 +125,8 @@ Then, next, else, forbidden. If there isn't any user, unauthorized.
                && Array.isArray(req.users.roles) 
                && req.user.roles.includes(role)
                ? next()
-               : res.status(403).json({ message: 'You ain't authoriiiiiized sooooooonnnn!' }))
-            : res.status(401).json({ message: 'Ya'll need to login first, yunno?' });
+               : res.status(403).json({ message: `You ain't authoriiiiiized sooooooonnnn!` }))
+            : res.status(401).json({ message: `Ya'll need to login first, yunno?` });
         }
     }
 
