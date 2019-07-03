@@ -9,5 +9,7 @@ module.exports = {
         return db('users')
             .where({ username })
             .first()
+            .then(([id]) => this.get(id))
     }  
 }
+

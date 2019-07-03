@@ -1,10 +1,10 @@
 const express = require('express');
 const rolesDB = require('../models/roles-model')
 const router = express.Router();
-const auth = require('../middleware/auth-mw.js');
+const { restricted } = require('../middleware/auth-mw.js');
 
 
-router.get('/', auth.restricted, async (req, res) => {
+router.get('/', restricted, async (req, res) => {
     try {
         const roles = await rolesDB.find();
 
@@ -15,7 +15,7 @@ router.get('/', auth.restricted, async (req, res) => {
 });
 
 
-router.get('/:id', auth.restricted, async (req, res) => {
+router.get('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const role = await rolesDB.findById(id);
@@ -26,7 +26,7 @@ router.get('/:id', auth.restricted, async (req, res) => {
     }
 }); 
 
-router.post('/', auth.restricted, async (req, res) => {
+router.post('/', restricted, async (req, res) => {
     try {
         const newRole = await rolesDB.add(req.body);
 
@@ -36,7 +36,7 @@ router.post('/', auth.restricted, async (req, res) => {
     }
 });
 
-router.put('/:id', auth.restricted, async (req, res) => {
+router.put('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const updateRole = await rolesDB.update(id, req.body);
@@ -49,7 +49,7 @@ router.put('/:id', auth.restricted, async (req, res) => {
     }
 });
 
-router.delete('/:id', auth.restricted, async (req, res) => {
+router.delete('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const success = await rolesDB.remove(id);

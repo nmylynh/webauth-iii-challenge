@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const userDB = require('../models/auth-model')
-const mw = require('../middleware/users-mw');
+const { validateUserBody } = require('../middleware/users-mw');
 const jwt = require('jsonwebtoken');
 const secrets = require('../database/secret.js');
 
-router.post('/register', mw.validateUserBody, async (req, res) => {
+router.post('/register', validateUserBody, async (req, res) => {
     try {
         let newUser = req.body;
 
@@ -20,7 +20,7 @@ router.post('/register', mw.validateUserBody, async (req, res) => {
     }
 });
 
-router.post('/login', mw.validateUserBody, async (req, res) => {
+router.post('/login', validateUserBody, async (req, res) => {
     try {
         const { username, password } = req.body;
         let token = null;
@@ -51,7 +51,7 @@ function generateToken(user) {
     const payload = {
         subject: user.id,
         username: user.username,
-        roles: [user.roles]
+        roles: user.roles
     };
 
     const options = {

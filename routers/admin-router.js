@@ -1,10 +1,10 @@
 const express = require('express');
 const userRoles = require('../models/admin-model')
 const router = express.Router();
-const auth = require('../middleware/auth-mw.js');
+const { restricted, checkRole } = require('../middleware/auth-mw.js');
 
 
-router.get('/', auth.restricted, auth.checkRole('admin'), async (req, res) => {
+router.get('/', restricted, checkRole('admin'), async (req, res) => {
     try {
         const roles = await userRoles.find();
 
@@ -15,7 +15,7 @@ router.get('/', auth.restricted, auth.checkRole('admin'), async (req, res) => {
 });
 
 
-router.get('/:id', auth.restricted, auth.checkRole('admin'), async (req, res) => {
+router.get('/:id', restricted, checkRole('admin'), async (req, res) => {
     try {
         const {id} = req.params;
         const role = await userRoles.findById(id);
@@ -26,7 +26,7 @@ router.get('/:id', auth.restricted, auth.checkRole('admin'), async (req, res) =>
     }
 }); 
 
-router.post('/', auth.restricted, auth.checkRole('admin'), async (req, res) => {
+router.post('/', restricted, checkRole('admin'), async (req, res) => {
     try {
         const newRole = await userRoles.add(req.body);
 
@@ -36,7 +36,7 @@ router.post('/', auth.restricted, auth.checkRole('admin'), async (req, res) => {
     }
 });
 
-router.put('/:id', auth.restricted, auth.checkRole('admin'), async (req, res) => {
+router.put('/:id', restricted, checkRole('admin'), async (req, res) => {
     try {
         const {id} = req.params;
         const editUserRole = await userRoles.update(id, req.body);
@@ -49,7 +49,7 @@ router.put('/:id', auth.restricted, auth.checkRole('admin'), async (req, res) =>
     }
 });
 
-router.delete('/:id', auth.restricted, auth.checkRole('admin'), async (req, res) => {
+router.delete('/:id', restricted, checkRole('admin'), async (req, res) => {
     try {
         const {id} = req.params;
         const success = await userRoles.remove(id);

@@ -16,6 +16,12 @@ function findById(id) {
     .where({ id })
     .first()
 }
+
+function getUserRoles(id) {
+    return db('user_roles') 
+      .where('user_id', id)
+      
+}
   
 function update(id, changes) {
     return db('users')
