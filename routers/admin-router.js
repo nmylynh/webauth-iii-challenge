@@ -4,9 +4,9 @@ const router = express.Router();
 const { restricted, checkRole } = require('../middleware/auth-mw.js');
 
 
-router.get('/', restricted, checkRole('admin'), async (req, res) => {
+router.get('/', restricted, async (req, res) => {
     try {
-        const roles = await userRoles.find();
+        const roles = await userRoles.get();
 
         res.status(200).json(roles);
     } catch(err) {
@@ -15,7 +15,7 @@ router.get('/', restricted, checkRole('admin'), async (req, res) => {
 });
 
 
-router.get('/:id', restricted, checkRole('admin'), async (req, res) => {
+router.get('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const role = await userRoles.findById(id);
@@ -26,7 +26,7 @@ router.get('/:id', restricted, checkRole('admin'), async (req, res) => {
     }
 }); 
 
-router.post('/', restricted, checkRole('admin'), async (req, res) => {
+router.post('/', restricted, async (req, res) => {
     try {
         const newRole = await userRoles.add(req.body);
 
@@ -36,7 +36,7 @@ router.post('/', restricted, checkRole('admin'), async (req, res) => {
     }
 });
 
-router.put('/:id', restricted, checkRole('admin'), async (req, res) => {
+router.put('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const editUserRole = await userRoles.update(id, req.body);
@@ -49,7 +49,7 @@ router.put('/:id', restricted, checkRole('admin'), async (req, res) => {
     }
 });
 
-router.delete('/:id', restricted, checkRole('admin'), async (req, res) => {
+router.delete('/:id', restricted, async (req, res) => {
     try {
         const {id} = req.params;
         const success = await userRoles.remove(id);

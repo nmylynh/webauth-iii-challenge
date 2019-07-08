@@ -9,7 +9,14 @@ module.exports = {
         return db('users')
             .where({ username })
             .first()
-            .then(([id]) => this.get(id))
-    }  
+            // .then(([id]) => this.get(id))
+    },
+    // get: () => {
+
+    // },
+    // getUserRoles: (id) {
+    //     return db('actions') // give me actions
+    //       .where('project_id', projectId) 
+    // }
 }
 
