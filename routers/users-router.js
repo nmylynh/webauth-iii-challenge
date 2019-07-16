@@ -18,7 +18,7 @@ router.get('/', restricted, async (req, res) => {
 router.get('/:id', restricted, validateUserId, async (req, res) => {
     try {
         const { id } = req.params;
-        const user = await userDB.findById(id);
+        const user = await userDB.get(id);
 
         res.status(200).json(user);
     } catch(err) {

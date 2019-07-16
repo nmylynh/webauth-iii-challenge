@@ -5,8 +5,7 @@ module.exports = {
     findById,
     add,
     update,
-    remove,
-    get
+    remove
 }
 
 function find() {
@@ -18,14 +17,7 @@ function findById(id) {
     .where({ id })
     .first()
 }
-
-function get() {
-    return db('user_roles')
-    .join('roles', 'user_roles.role_id', 'roles.id')
-    .join('users', 'user_roles.user_id', 'users.id')
-    .select('user_roles.id', 'users.id as user_id' , 'users.username', 'roles.role')
-}
-
+  
 async function add(role) {
     const [id] = await db('user_roles').insert(role);
     return findById(id);

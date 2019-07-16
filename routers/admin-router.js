@@ -6,7 +6,7 @@ const { restricted, checkRole } = require('../middleware/auth-mw.js');
 
 router.get('/', restricted, async (req, res) => {
     try {
-        const roles = await userRoles.get();
+        const roles = await userRoles.find();
 
         res.status(200).json(roles);
     } catch(err) {
