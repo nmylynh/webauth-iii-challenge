@@ -19,9 +19,9 @@ function findById(id) {
 }
 
 async function add(role) {
-const [id] = await db('roles').insert(role);
+    const [id] = await db('roles').insert(role);
 
-return findById(id);
+    return findById(id);
 }
 
 function update(id, changes) {

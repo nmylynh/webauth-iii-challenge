@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('../database/secret.js');
+const { getRoles } = require('../models/users-model');
 
 module.exports = {
     restricted: (req, res, next) => {
@@ -18,7 +19,7 @@ module.exports = {
         return function(req, res, next) {
             req.user
             ? (req.user.roles 
-               && Array.isArray(req.users.roles) 
+               && Array.isArray(req.user.roles) 
                && req.user.roles.includes(role)
                ? next()
                : res.status(403).json({ message: `You ain't authoriiiiiized sooooooonnnn!` }))
@@ -26,3 +27,4 @@ module.exports = {
         }
     }
 } 
+

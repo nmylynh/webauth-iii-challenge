@@ -5,6 +5,7 @@ const userDB = require('../models/auth-model')
 const { validateUserBody } = require('../middleware/users-mw');
 const jwt = require('jsonwebtoken');
 const secrets = require('../database/secret.js');
+const helper = require('../models/users-model');
 
 router.post('/register', validateUserBody, async (req, res) => {
     try {
@@ -25,9 +26,13 @@ router.post('/login', validateUserBody, async (req, res) => {
         const { username, password } = req.body;
         let token = null;
 
-        const user = await userDB.login(username);
+        let user = await userDB.login(username);
 
-        user && bcrypt.compareSync(password, user.password)
+        const userRoles = await helper.get(user.id);
+
+        user.roles = userRoles.roles;
+
+        user && user.roles && bcrypt.compareSync(password, user.password) 
         ? (token = generateToken(user),
           res.status(200).json({ message: `Welcome ${user.username}!`, token }))
         : res.status(401).json({ message: 'Invalid credentials.' });

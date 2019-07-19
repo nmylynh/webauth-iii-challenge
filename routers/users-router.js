@@ -8,7 +8,7 @@ const { validateUserBody, validateUserId } = require('../middleware/users-mw');
 router.get('/', restricted, async (req, res) => {
     try {
         const users = await userDB.find();
-
+        
         res.status(200).json({ users, user: req.user });
     } catch(err) {
         res.status(500).json({ success:false, err })

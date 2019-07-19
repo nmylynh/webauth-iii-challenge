@@ -8,6 +8,7 @@ module.exports = {
     remove,
     getUserRoles,
     get,
+    getRoles
 }
 
 function find() {
@@ -54,7 +55,7 @@ function getUserRoles(id) {
 
     return loadRoles
 }
-  
+
 function update(id, changes) {
     return db('users')
     .where({ id })

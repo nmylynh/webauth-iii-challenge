@@ -4,7 +4,7 @@ const router = express.Router();
 const { restricted, checkRole } = require('../middleware/auth-mw.js');
 
 
-router.get('/', restricted, async (req, res) => {
+router.get('/', restricted, checkRole('admin'), async (req, res) => {
     try {
         const roles = await userRoles.find();
 
