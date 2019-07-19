@@ -7,8 +7,7 @@ module.exports = {
     update,
     remove,
     getUserRoles,
-    get,
-    getRoles
+    get
 }
 
 function find() {
