@@ -11,7 +11,7 @@ router.get('/', restricted, async (req, res) => {
 
         res.status(200).json({ users, user: req.user });
     } catch(err) {
-        res.status(500).json({ success:false, err })
+        res.status(500).json({ success: false, err })
     }
 });
 
@@ -22,7 +22,7 @@ router.get('/:id', restricted, validateUserId, async (req, res) => {
 
         res.status(200).json(user);
     } catch(err) {
-        res.status(500).json({success:false, err})
+        res.status(500).json({ success: false, err })
     }
 });
 
@@ -33,7 +33,7 @@ router.get('/:id/roles', async (req, res) => {
 
         res.status(200).json(userRoles);
     } catch (err) {
-        res.status(500).json({success: false, err});
+        res.status(500).json({ success: false, err });
     }
 });
 
@@ -51,7 +51,7 @@ router.put('/:id', restricted, validateUserId, validateUserBody, async (req, res
         ? res.status(200).json({message: 'successfully updated credentials'}) 
         : res.status(404).json({message: 'missing required fields'})
     } catch(err) {
-        res.status(500).json({ success:false, err })
+        res.status(500).json({ success: false, err })
     }
 });
 
