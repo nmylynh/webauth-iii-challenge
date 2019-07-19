@@ -2,24 +2,24 @@ const db = require('../database/dbConfig.js');
 const { getOnlyRoles } = require('./helpers/users-helper');
 
 module.exports = {
-    find,
-    findById,
     update,
     remove,
     getUserRoles,
-    get
+    get,
+    getUsers
 }
 
-function find() {
-    return db('users');
-}
 
-function findById(id) {
-    return db('users')
-    .where({ id })
-    .first()
-}
+function getUsers() {
+    let users = db('users');
 
+    let newUsersArray = users.map(user => {
+
+        return this.get(user.id)
+    })
+
+    return newUsersArray
+}
 
 function get(id) {
     let users = db('users');

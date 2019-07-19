@@ -1,3 +1,5 @@
+const { get } = require('../users-model');
+
 module.exports = {
     getOnlyRoles
  }
@@ -9,3 +11,4 @@ function getOnlyRoles(rolesObjectsArray) {
 
     return roles
 }
+
