@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('../database/secret.js');
-const { getRoles } = require('../models/users-model');
 
 module.exports = {
     restricted: (req, res, next) => {
